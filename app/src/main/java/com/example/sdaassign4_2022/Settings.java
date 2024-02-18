@@ -17,10 +17,11 @@ import android.widget.Toast;
 public class Settings extends Fragment {
 
     // Create variables for UI elements
-    Button saveBtn, clearBtn;
+    Button clearBtn, resetBtn, saveBtn;
     EditText userNameField, userAddressField, userZIPField, userTownField, userPhoneNumberField, userEmailAddressField, userIdField;
-
+    // Other variables
     SharedPreferences userDetails;
+
     public Settings() {} // Required empty public constructor
 
     @Override
@@ -39,18 +40,52 @@ public class Settings extends Fragment {
         userEmailAddressField = root.findViewById(R.id.userEmailAddressField);
         userIdField = root.findViewById(R.id.userIdField);
         // Buttons
-        saveBtn = root.findViewById(R.id.saveDetailsBtn);
         clearBtn = root.findViewById(R.id.clearDetailsBtn);
+        resetBtn = root.findViewById(R.id.resetDetailsBtn);
+        saveBtn = root.findViewById(R.id.saveDetailsBtn);
 
-        // Insert previously saved details into fields
+        // Get shared preferences
         userDetails = this.getActivity().getSharedPreferences("UserDetailsPreferences", Context.MODE_PRIVATE);
-        userNameField.setText(userDetails.getString("name", ""));
-        userAddressField.setText(userDetails.getString("address", ""));
-        userZIPField.setText(userDetails.getString("zip", ""));
-        userTownField.setText(userDetails.getString("town", ""));
-        userPhoneNumberField.setText(userDetails.getString("phone", ""));
-        userEmailAddressField.setText(userDetails.getString("email", ""));
-        userIdField.setText(userDetails.getString("id", ""));
+        // Populate fields from saved data
+        populateUserDetailsFieldsWithSavedData();
+
+        // Clear details onclick, remove text from UI fields, but not data in memory
+        clearBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Clear data
+                userNameField.setText("");
+                userAddressField.setText("");
+                userZIPField.setText("");
+                userTownField.setText("");
+                userPhoneNumberField.setText("");
+                userEmailAddressField.setText("");
+                userIdField.setText("");
+                // Set focus to first field for fresh data entry
+                userNameField.requestFocus();
+            }
+        });
+
+        // Reset details onclick, fetch details from SharedPreferences if exist
+        resetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Check if account details already exist
+                String currentSavedUserId = userDetails.getString("id", "");
+                // If no details exist, show error message
+                if (currentSavedUserId.equals(""))
+                    Toast.makeText(getContext(), getString(R.string.missing_account_error), Toast.LENGTH_SHORT).show();
+                else
+                {
+                    // Populate fields from saved data
+                    populateUserDetailsFieldsWithSavedData();
+                    // Show success message
+                    Toast.makeText(getContext(), getString(R.string.details_reset), Toast.LENGTH_SHORT).show();
+                }
+                // Set focus to first field for fresh data entry
+                userNameField.requestFocus();
+            }
+        });
 
         // Save details onclick, check all fields are populated, save data if true
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -87,24 +122,19 @@ public class Settings extends Fragment {
             }
         });
 
-        // Clear details onclick, remove text from UI fields, but not data in memory
-        clearBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Clear data
-                userNameField.setText("");
-                userAddressField.setText("");
-                userZIPField.setText("");
-                userTownField.setText("");
-                userPhoneNumberField.setText("");
-                userEmailAddressField.setText("");
-                userIdField.setText("");
-                // Set focus to first field for fresh data entry
-                userNameField.requestFocus();
-            }
-        });
-
         return root;
+    }
+
+    // Populate fields from saved data
+    private void populateUserDetailsFieldsWithSavedData()
+    {
+        userNameField.setText(userDetails.getString("name", ""));
+        userAddressField.setText(userDetails.getString("address", ""));
+        userZIPField.setText(userDetails.getString("zip", ""));
+        userTownField.setText(userDetails.getString("town", ""));
+        userPhoneNumberField.setText(userDetails.getString("phone", ""));
+        userEmailAddressField.setText(userDetails.getString("email", ""));
+        userIdField.setText(userDetails.getString("id", ""));
     }
 
     // Check if all detail fields are properly populated (user is prompted if not via Toast messages)

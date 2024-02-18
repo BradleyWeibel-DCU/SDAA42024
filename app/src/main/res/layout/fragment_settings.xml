@@ -34,6 +34,7 @@
             android:layout_marginEnd="16dp"
             android:ems="10"
             android:hint="@string/name_field_text"
+            android:maxLength="30"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/userHeading" />
@@ -47,6 +48,7 @@
             android:layout_marginEnd="16dp"
             android:ems="10"
             android:hint="@string/address_field_text"
+            android:maxLength="30"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,6 +64,7 @@
             android:ems="10"
             android:hint="@string/zip_field_text"
             android:inputType="number"
+            android:maxLength="5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,6 +79,7 @@
             android:layout_marginEnd="16dp"
             android:ems="10"
             android:hint="@string/town_field_text"
+            android:maxLength="30"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -91,6 +95,7 @@
             android:ems="10"
             android:hint="@string/phone_field_text"
             android:inputType="number"
+            android:maxLength="13"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -105,6 +110,7 @@
             android:layout_marginEnd="16dp"
             android:ems="10"
             android:hint="@string/email_field_text"
+            android:maxLength="35"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -126,23 +132,35 @@
             app:layout_constraintTop_toBottomOf="@+id/userEmailAddressField" />
 
         <Button
-            android:id="@+id/saveDetailsBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/save_btn_text"
-            app:layout_constraintEnd_toStartOf="@+id/clearDetailsBtn"
-            app:layout_constraintTop_toBottomOf="@+id/userIdField" />
-
-        <Button
             android:id="@+id/clearDetailsBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
             android:text="@string/clear_btn_text"
+            app:layout_constraintEnd_toStartOf="@+id/resetDetailsBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userIdField" />
+
+        <Button
+            android:id="@+id/resetDetailsBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/reset_btn_text"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userIdField" />
+
+        <Button
+            android:id="@+id/saveDetailsBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:text="@string/save_btn_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/resetDetailsBtn"
             app:layout_constraintTop_toBottomOf="@+id/userIdField" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

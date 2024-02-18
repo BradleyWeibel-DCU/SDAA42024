@@ -22,6 +22,7 @@
     <string name="id_field_text">ID</string>
     <string name="save_btn_text">Save</string>
     <string name="clear_btn_text">Clear</string>
+    <string name="reset_btn_text">Reset</string>
 
     <!-- Toast error messages -->
     <string name="name_missing_error">Please enter your full name</string>
@@ -30,7 +31,9 @@
     <string name="town_missing_error">Please enter your town</string>
     <string name="phone_number_missing_error">Please enter your phone number</string>
     <string name="email_missing_error">Please enter your email address</string>
+    <string name="missing_account_error">No account details found</string>
 
     <!-- Toast success messages -->
     <string name="details_saved">Account successfully created/updated</string>
+    <string name="details_reset">Account details reset</string>
 </resources>

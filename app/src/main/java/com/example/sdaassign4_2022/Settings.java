@@ -59,26 +59,55 @@ public class Settings extends Fragment {
                 // Check if all details are populated (user is prompted if not via Toast messages)
                 if (areAllDetailsPopulated())
                 {
-                    // Create Id TODO
-
+                    // If user Id field is empty
+                    if (userIdField.getText().toString().equals("")) {
+                        // Create new Id
+                        // Get user's name without any spaces
+                        String userName = userNameField.getText().toString().replaceAll("\\s+","");
+                        // Add number behind
+                        String userId = userName + "_001";
+                        // insert into readonly Id field - to be saved below with the other values
+                        userIdField.setText(userId);
+                    }
 
                     // Save/overwrite details in SharedPreferences
                     SharedPreferences.Editor editor = userDetails.edit();
-                    editor.putString("name", userNameField.getText().toString());
-                    editor.putString("address", userAddressField.getText().toString());
+                    editor.putString("name", userNameField.getText().toString().trim());
+                    editor.putString("address", userAddressField.getText().toString().trim());
                     editor.putString("zip", userZIPField.getText().toString());
-                    editor.putString("town", userTownField.getText().toString());
+                    editor.putString("town", userTownField.getText().toString().trim());
                     editor.putString("phone", userPhoneNumberField.getText().toString());
-                    editor.putString("email", userEmailAddressField.getText().toString());
+                    editor.putString("email", userEmailAddressField.getText().toString().trim());
                     editor.putString("id", userIdField.getText().toString());
                     editor.apply();
+
+                    // Show success message
+                    Toast.makeText(getContext(), getString(R.string.details_saved), Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        // Clear details onclick, remove text from UI fields, but not data in memory
+        clearBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Clear data
+                userNameField.setText("");
+                userAddressField.setText("");
+                userZIPField.setText("");
+                userTownField.setText("");
+                userPhoneNumberField.setText("");
+                userEmailAddressField.setText("");
+                userIdField.setText("");
+                // Set focus to first field for fresh data entry
+                userNameField.requestFocus();
             }
         });
 
         return root;
     }
 
+    // Check if all detail fields are properly populated (user is prompted if not via Toast messages)
     private boolean areAllDetailsPopulated()
     {
         // Determine if detail fields are populated

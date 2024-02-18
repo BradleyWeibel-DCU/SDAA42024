@@ -30,4 +30,7 @@
     <string name="town_missing_error">Please enter your town</string>
     <string name="phone_number_missing_error">Please enter your phone number</string>
     <string name="email_missing_error">Please enter your email address</string>
+
+    <!-- Toast success messages -->
+    <string name="details_saved">Account successfully created/updated</string>
 </resources>

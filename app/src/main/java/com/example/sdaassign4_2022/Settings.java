@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -94,16 +96,13 @@ public class Settings extends Fragment {
                 // Check if all details are populated (user is prompted if not via Toast messages)
                 if (areAllDetailsPopulated())
                 {
-                    // If user Id field is empty
-                    if (userIdField.getText().toString().equals("")) {
-                        // Create new Id
-                        // Get user's name without any spaces
-                        String userName = userNameField.getText().toString().replaceAll("\\s+","");
-                        // Add number behind
-                        String userId = userName + "_001";
-                        // insert into readonly Id field - to be saved below with the other values
-                        userIdField.setText(userId);
-                    }
+                    // Create new Id in case of new username
+                    // Get user's name without any spaces
+                    String userName = userNameField.getText().toString().replaceAll("\\s+","");
+                    // Add number behind
+                    String userId = userName + "_001";
+                    // insert into readonly Id field - to be saved below with the other values
+                    userIdField.setText(userId);
 
                     // Save/overwrite details in SharedPreferences
                     SharedPreferences.Editor editor = userDetails.edit();
@@ -140,22 +139,82 @@ public class Settings extends Fragment {
     // Check if all detail fields are properly populated (user is prompted if not via Toast messages)
     private boolean areAllDetailsPopulated()
     {
-        // Determine if detail fields are populated
-        if (userNameField.getText().toString().equals(""))                                                              // Is name field empty
+        // Get string values from UI
+        String nameText = userNameField.getText().toString().trim();
+        String addressText = userAddressField.getText().toString().trim();
+        String zipText = userZIPField.getText().toString().trim();
+        String townText = userTownField.getText().toString().trim();
+        String phoneText = userPhoneNumberField.getText().toString().trim();
+        String emailText = userEmailAddressField.getText().toString().trim().trim();
+        // Determine if detail fields are populated correctly
+        if (nameText.equals(""))                                                                                        // Is name empty
             Toast.makeText(getContext(), getString(R.string.name_missing_error), Toast.LENGTH_SHORT).show();
-        else if (userAddressField.getText().toString().equals(""))                                                      // Is street address empty
+        else if (!isNameOrTownValid(nameText))                                                                          // Is name invalid
+            Toast.makeText(getContext(), getString(R.string.name_invalid_error), Toast.LENGTH_SHORT).show();
+        else if (addressText.equals(""))                                                                                // Is street address empty
             Toast.makeText(getContext(), getString(R.string.address_missing_error), Toast.LENGTH_SHORT).show();
-        else if (userZIPField.getText().toString().equals(""))                                                          // Is zip code empty
+        else if (!isAddressValid(addressText))                                                                          // Is street address invalid
+            Toast.makeText(getContext(), getString(R.string.address_invalid_error), Toast.LENGTH_SHORT).show();
+        else if (zipText.equals(""))                                                                                    // Is zip code empty
             Toast.makeText(getContext(), getString(R.string.zip_missing_error), Toast.LENGTH_SHORT).show();
-        else if (userTownField.getText().toString().equals(""))                                                         // Is town empty
+        else if (zipText.length() <= 3)                                                                                 // Is zip code invalid
+            Toast.makeText(getContext(), getString(R.string.zip_invalid_error), Toast.LENGTH_SHORT).show();
+        else if (townText.equals(""))                                                                                   // Is town empty
             Toast.makeText(getContext(), getString(R.string.town_missing_error), Toast.LENGTH_SHORT).show();
-        else if (userPhoneNumberField.getText().toString().equals(""))                                                  // Is phone number empty
+        else if (!isNameOrTownValid(townText))                                                                          // Is town invalid
+            Toast.makeText(getContext(), getString(R.string.town_invalid_error), Toast.LENGTH_SHORT).show();
+        else if (phoneText.equals(""))                                                                                  // Is phone number empty
             Toast.makeText(getContext(), getString(R.string.phone_number_missing_error), Toast.LENGTH_SHORT).show();
-        else if (userEmailAddressField.getText().toString().equals(""))                                                 // Is email address empty
+        else if (phoneText.length() <= 9)                                                                               // Is phone number invalid
+            Toast.makeText(getContext(), getString(R.string.phone_number_invalid_error), Toast.LENGTH_SHORT).show();
+        else if (emailText.equals(""))                                                                                  // Is email address empty
             Toast.makeText(getContext(), getString(R.string.email_missing_error), Toast.LENGTH_SHORT).show();
+        else if (!isEmailValid(emailText))                                                                              // Is email address invalid
+            Toast.makeText(getContext(), getString(R.string.email_invalid_error), Toast.LENGTH_SHORT).show();
         else                                                                                                            // All fields populated
             return true;
         // At least one field was not populated
         return false;
+    }
+
+    // Validation methods
+    private boolean isNameOrTownValid(String text)
+    {
+        // Create return value
+        Boolean result;
+        // Check text is not shorter than 3 characters
+        if (text.length() < 3)
+            result = false;
+        else
+        {
+            // Check text contains only spaces and letters
+            Pattern pattern = Pattern.compile("^[a-zA-Z]+(\\s[a-zA-Z]+)?$");
+            Matcher matcher = pattern.matcher(text);
+            result = matcher.matches();
+        }
+        return result;
+    }
+    private boolean isAddressValid(String address)
+    {
+        // Create return value
+        Boolean result;
+        // Check address is not shorter than 4 characters
+        if (address.length() < 4)
+            result = false;
+        else
+        {
+            // Check address contains only spaces, numbers and letters
+            Pattern pattern = Pattern.compile("^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$");
+            Matcher matcher = pattern.matcher(address);
+            result = matcher.matches();
+        }
+        return result;
+    }
+    private boolean isEmailValid(String email)
+    {
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 }

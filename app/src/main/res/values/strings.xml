@@ -26,11 +26,17 @@
 
     <!-- Toast error messages -->
     <string name="name_missing_error">Please enter your full name</string>
+    <string name="name_invalid_error">Please enter your (valid) full name</string>
     <string name="address_missing_error">Please enter your street address</string>
+    <string name="address_invalid_error">Please enter your (valid) street address</string>
     <string name="zip_missing_error">Please enter your zip code</string>
-    <string name="town_missing_error">Please enter your town</string>
+    <string name="zip_invalid_error">Please enter your (4/5 digit) zip code</string>
+    <string name="town_missing_error">Please enter your town/city</string>
+    <string name="town_invalid_error">Please enter your (valid) town/city</string>
     <string name="phone_number_missing_error">Please enter your phone number</string>
+    <string name="phone_number_invalid_error">Please enter your (10 digit) phone number</string>
     <string name="email_missing_error">Please enter your email address</string>
+    <string name="email_invalid_error">Please enter your (valid) email address</string>
     <string name="missing_account_error">No account details found</string>
 
     <!-- Toast success messages -->

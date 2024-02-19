@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 30
     defaultConfig {
-        applicationId "com.example.sdaassign4_2022"
+        applicationId "com.example.sda_a4_2024_bradleyweibel"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
@@ -16,7 +16,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    namespace 'com.example.sdaassign4_2022'
+    namespace 'com.example.sda_a4_2024_bradleyweibel'
 }
 
 dependencies {

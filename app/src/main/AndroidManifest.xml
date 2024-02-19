@@ -9,8 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.sdaassign4_2022.CheckOut" />
-        <activity android:name="com.example.sdaassign4_2022.MainActivity">
+        <activity android:name="com.example.sda_a4_2024_bradleyweibel.CheckOut" />
+        <activity android:name="com.example.sda_a4_2024_bradleyweibel.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,4 +1,4 @@
-package com.example.sdaassign4_2022;
+package com.example.sda_a4_2024_bradleyweibel;
 
 /*
  * Copyright (C) 2016 The Android Open Source Project
@@ -16,7 +16,7 @@ package com.example.sdaassign4_2022;
  * limitations under the License.
  */
 
-import static com.example.sdaassign4_2022.Helper.showToast;
+import static com.example.sda_a4_2024_bradleyweibel.Helper.showToast;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -101,7 +101,6 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
             titleText = itemView.findViewById(R.id.bookTitle);
             checkOut = itemView.findViewById(R.id.out_button);
             itemParentLayout = itemView.findViewById(R.id.listItemLayout);
-
         }
     }
 }

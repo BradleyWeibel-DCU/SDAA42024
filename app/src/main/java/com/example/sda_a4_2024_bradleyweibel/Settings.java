@@ -1,6 +1,6 @@
-package com.example.sdaassign4_2022;
+package com.example.sda_a4_2024_bradleyweibel;
 
-import static com.example.sdaassign4_2022.Helper.showToast;
+import static com.example.sda_a4_2024_bradleyweibel.Helper.showToast;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;

@@ -1,18 +1,13 @@
 package com.example.sdaassign4_2022;
 
-
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import java.util.ArrayList;
-
 
 /**
  * Images used are sourced from Public Domain Day 2019.
@@ -21,18 +16,16 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  * @author Chris Coughlan
  */
+
 public class BookList extends Fragment {
 
-
-    public BookList() {
-        // Required empty public constructor
-    }
+    public BookList() { } // Required empty public constructor
 
     ViewPageAdapter adapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_book_list, container, false);
 
@@ -45,12 +38,11 @@ public class BookList extends Fragment {
 
         //simple loop here to add the images to the array without typing each one
         for(int i=1;i<=14;i++) {
-            int id = getResources().getIdentifier("sku1000" + i, "drawable",
-                    root.getContext().getPackageName());
+            int id = getResources().getIdentifier("sku1000" + i, "drawable", root.getContext().getPackageName());
             mImageID.add(id);
         }
 
-        //adding author and title.
+        //adding author and title. TODO no longer hard coded
         mAuthor.add("Edgar Rice Burroughs"); mTitle.add("Tarzan and the Golden Lion");
         mAuthor.add("Agatha Christie"); mTitle.add("The Murder on the Links");
         mAuthor.add("Winston S. Churchill"); mTitle.add("The World Crisis");
@@ -72,5 +64,4 @@ public class BookList extends Fragment {
 
         return root;
     }
-
 }

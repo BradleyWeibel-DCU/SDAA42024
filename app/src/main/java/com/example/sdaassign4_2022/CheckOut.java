@@ -2,14 +2,12 @@ package com.example.sdaassign4_2022;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
-
 import java.util.Calendar;
 
 public class CheckOut extends AppCompatActivity {
@@ -34,20 +32,15 @@ public class CheckOut extends AppCompatActivity {
     public void onDateClicked(View v) {
 
         DatePickerDialog.OnDateSetListener mDateListener = new DatePickerDialog.OnDateSetListener() {
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 mDateAndTime.set(Calendar.YEAR, year);
                 mDateAndTime.set(Calendar.MONTH, monthOfYear);
                 mDateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 updateDateAndTimeDisplay();
             }
         };
-
-        new DatePickerDialog(CheckOut.this, mDateListener,
-                mDateAndTime.get(Calendar.YEAR),
-                mDateAndTime.get(Calendar.MONTH),
-                mDateAndTime.get(Calendar.DAY_OF_MONTH)).show();
-
+        // Show date picker popup
+        new DatePickerDialog(CheckOut.this, mDateListener, mDateAndTime.get(Calendar.YEAR), mDateAndTime.get(Calendar.MONTH), mDateAndTime.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     private void updateDateAndTimeDisplay() {

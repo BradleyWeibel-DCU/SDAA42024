@@ -1,7 +1,6 @@
 package com.example.sdaassign4_2022;
 
 import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -11,6 +10,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
  * viewPager adapter.
  * @author Chris Coughlan 2019
  */
+
 public class ViewPageAdapter extends FragmentPagerAdapter {
 
     private Context context;

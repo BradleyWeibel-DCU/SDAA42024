@@ -1,18 +1,21 @@
 <resources>
-    <string name="app_name">SDA Assign4_2022</string>
+    <string name="app_name">Halls of History</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="hello_ragment">One string</string>
+    <!-- General texts -->
     <string name="images_desc">Book Thumb</string>
     <string name="plc_author">Edgar Rice Burroughs</string>
     <string name="plc_title">Tarzan and the Golden Lion</string>
     <string name="border">border item</string>
-    <string name="check_out">Check Out</string>
-    <string name="library">library</string>
 
-    <!-- User settings -->
-    <string name="fragment_header">User Details:</string>
+    <!-- Home tab -->
+    <string name="welcome">-- Welcome --</string>
+    <string name="welcome_message_part_2">Enjoy our collection of historical epics</string>
+
+    <!-- Books tab -->
+    <string name="check_out">Check Out</string>
+
+    <!-- Settings tab -->
+    <string name="fragment_header">-- User Details --</string>
     <string name="name_field_text">Name *</string>
     <string name="address_field_text">Street Address *</string>
     <string name="zip_field_text">ZIP Code *</string>

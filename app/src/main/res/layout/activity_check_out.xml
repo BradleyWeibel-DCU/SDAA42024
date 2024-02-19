@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CheckOut">
+    tools:context=".CheckOut"
+    android:background="@color/colorScreenBackground">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -25,6 +26,8 @@
         android:layout_marginEnd="16dp"
         android:text="Select Date"
         android:onClick="onDateClicked"
+        android:background="@color/colorButtonBackground"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintBaseline_toBaselineOf="@+id/orderButton"
         app:layout_constraintEnd_toStartOf="@+id/orderButton"
         app:layout_constraintHorizontal_bias="0.5"
@@ -37,6 +40,8 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:text="Send Order"
+        android:background="@color/colorButtonBackground"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/date"
@@ -50,6 +55,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="Check out BookName"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
@@ -62,6 +68,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="Book is available or Book will be available on this date: DATE"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,6 +82,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:text=""
+        android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

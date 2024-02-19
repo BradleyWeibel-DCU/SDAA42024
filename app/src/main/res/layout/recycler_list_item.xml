@@ -21,7 +21,7 @@
         android:layout_toEndOf="@+id/bookImage"
         android:text="@string/plc_author"
         android:textAlignment="textStart"
-        android:textColor="@color/listText"
+        android:textColor="@color/colorPrimary"
         android:textSize="17sp" />
 
     <TextView
@@ -34,7 +34,7 @@
         android:layout_toEndOf="@+id/bookImage"
         android:text="@string/plc_title"
         android:textAlignment="center"
-        android:textColor="@color/listText"
+        android:textColor="@color/colorPrimary"
         android:textSize="17sp"
         android:textStyle="italic" />
 
@@ -46,7 +46,9 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="@string/check_out" />
+        android:text="@string/check_out"
+        android:background="@color/colorButtonBackground"
+        android:textColor="@color/colorPrimary"/>
 
     <ImageView
         android:layout_width="match_parent"

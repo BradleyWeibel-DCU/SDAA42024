@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#022AB9</color>
-    <color name="colorPrimaryDark">#051F96</color>
-    <color name="colorAccent">#2196F3</color>
-    <color name="colorTab">#3F51B5</color>
-    <color name="colorToolbar">#2196F3</color>
+
+    <color name="colorPrimary">#646468</color>
+    <!-- Top header bar -->
+    <color name="colorPrimaryDark">#a67c00</color>
+    <!-- Middle header bar -->
+    <color name="colorTab">#a67c00</color>
+    <!-- Tab header bar -->
+    <color name="colorToolbar">#ffbf00</color>
+    <!-- Toast colours -->
+    <color name="colorToast">#a67c00</color>
+    <color name="colorToastText">#000000</color>
+
+    <color name="colorButtonBackground">#ffbf00</color>
+    <color name="colorScreenBackground">#bf9b30</color>
+    <color name="colorAccent">#646468</color>
     <color name="TabText">#646468</color>
     <color name="border_shade">#2A000000</color>
     <color name="listText">#000000</color>
-    <color name="tabSelect">#FFFFFF</color>
+    <color name="tabSelect">#646468</color>
 </resources>

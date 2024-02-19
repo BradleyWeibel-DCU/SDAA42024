@@ -2,6 +2,7 @@ package com.example.sdaassign4_2022;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -76,13 +78,13 @@ public class Settings extends Fragment {
                 String currentSavedUserId = userDetails.getString("id", "");
                 // If no details exist, show error message
                 if (currentSavedUserId.equals(""))
-                    Toast.makeText(getContext(), getString(R.string.missing_account_error), Toast.LENGTH_SHORT).show();
+                    showToast(getString(R.string.missing_account_error));
                 else
                 {
                     // Populate fields from saved data
                     populateUserDetailsFieldsWithSavedData();
                     // Show success message
-                    Toast.makeText(getContext(), getString(R.string.details_reset), Toast.LENGTH_SHORT).show();
+                    showToast(getString(R.string.details_reset));
                 }
                 // Set focus to first field for fresh data entry
                 userNameField.requestFocus();
@@ -116,7 +118,7 @@ public class Settings extends Fragment {
                     editor.apply();
 
                     // Show success message
-                    Toast.makeText(getContext(), getString(R.string.details_saved), Toast.LENGTH_SHORT).show();
+                    showToast(getString(R.string.details_saved));
                 }
             }
         });
@@ -147,31 +149,31 @@ public class Settings extends Fragment {
         String phoneText = userPhoneNumberField.getText().toString().trim();
         String emailText = userEmailAddressField.getText().toString().trim().trim();
         // Determine if detail fields are populated correctly
-        if (nameText.equals(""))                                                                                        // Is name empty
-            Toast.makeText(getContext(), getString(R.string.name_missing_error), Toast.LENGTH_SHORT).show();
-        else if (!isNameOrTownValid(nameText))                                                                          // Is name invalid
-            Toast.makeText(getContext(), getString(R.string.name_invalid_error), Toast.LENGTH_SHORT).show();
-        else if (addressText.equals(""))                                                                                // Is street address empty
-            Toast.makeText(getContext(), getString(R.string.address_missing_error), Toast.LENGTH_SHORT).show();
-        else if (!isAddressValid(addressText))                                                                          // Is street address invalid
-            Toast.makeText(getContext(), getString(R.string.address_invalid_error), Toast.LENGTH_SHORT).show();
-        else if (zipText.equals(""))                                                                                    // Is zip code empty
-            Toast.makeText(getContext(), getString(R.string.zip_missing_error), Toast.LENGTH_SHORT).show();
-        else if (zipText.length() <= 3)                                                                                 // Is zip code invalid
-            Toast.makeText(getContext(), getString(R.string.zip_invalid_error), Toast.LENGTH_SHORT).show();
-        else if (townText.equals(""))                                                                                   // Is town empty
-            Toast.makeText(getContext(), getString(R.string.town_missing_error), Toast.LENGTH_SHORT).show();
-        else if (!isNameOrTownValid(townText))                                                                          // Is town invalid
-            Toast.makeText(getContext(), getString(R.string.town_invalid_error), Toast.LENGTH_SHORT).show();
-        else if (phoneText.equals(""))                                                                                  // Is phone number empty
-            Toast.makeText(getContext(), getString(R.string.phone_number_missing_error), Toast.LENGTH_SHORT).show();
-        else if (phoneText.length() <= 9)                                                                               // Is phone number invalid
-            Toast.makeText(getContext(), getString(R.string.phone_number_invalid_error), Toast.LENGTH_SHORT).show();
-        else if (emailText.equals(""))                                                                                  // Is email address empty
-            Toast.makeText(getContext(), getString(R.string.email_missing_error), Toast.LENGTH_SHORT).show();
-        else if (!isEmailValid(emailText))                                                                              // Is email address invalid
-            Toast.makeText(getContext(), getString(R.string.email_invalid_error), Toast.LENGTH_SHORT).show();
-        else                                                                                                            // All fields populated
+        if (nameText.equals(""))                                        // Is name empty
+            showToast(getString(R.string.name_missing_error));
+        else if (!isNameOrTownValid(nameText))                          // Is name invalid
+            showToast(getString(R.string.name_invalid_error));
+        else if (addressText.equals(""))                                // Is street address empty
+            showToast(getString(R.string.address_missing_error));
+        else if (!isAddressValid(addressText))                          // Is street address invalid
+            showToast(getString(R.string.address_invalid_error));
+        else if (zipText.equals(""))                                    // Is zip code empty
+            showToast(getString(R.string.zip_missing_error));
+        else if (zipText.length() <= 3)                                 // Is zip code invalid
+            showToast(getString(R.string.zip_invalid_error));
+        else if (townText.equals(""))                                   // Is town empty
+            showToast(getString(R.string.town_missing_error));
+        else if (!isNameOrTownValid(townText))                          // Is town invalid
+            showToast(getString(R.string.town_invalid_error));
+        else if (phoneText.equals(""))                                  // Is phone number empty
+            showToast(getString(R.string.phone_number_missing_error));
+        else if (phoneText.length() <= 9)                               // Is phone number invalid
+            showToast(getString(R.string.phone_number_invalid_error));
+        else if (emailText.equals(""))                                  // Is email address empty
+            showToast(getString(R.string.email_missing_error));
+        else if (!isEmailValid(emailText))                              // Is email address invalid
+            showToast(getString(R.string.email_invalid_error));
+        else                                                            // All fields populated
             return true;
         // At least one field was not populated
         return false;
@@ -216,5 +218,21 @@ public class Settings extends Fragment {
         Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+
+    // Show a customized toast message
+    private void showToast(String message)
+    {
+        // Create toast object
+        Toast toastr = Toast.makeText(getContext(), message, Toast.LENGTH_SHORT);
+        View view = toastr.getView();
+        // Make changes to colour appearance
+        view.getBackground().setColorFilter(getResources().getColor(R.color.colorToast), PorterDuff.Mode.SRC_IN);
+        // Insert message
+        TextView text = view.findViewById(android.R.id.message);
+        // Set text colour
+        text.setTextColor(getResources().getColor(R.color.colorToastText));
+        // Show toast
+        toastr.show();
     }
 }

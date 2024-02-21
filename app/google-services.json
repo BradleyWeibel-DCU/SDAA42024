@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "363504157016",
+    "firebase_url": "https://sda-a4-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "sda-a4",
+    "storage_bucket": "sda-a4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:363504157016:android:39a7769038f3fb1cdda52d",
+        "android_client_info": {
+          "package_name": "com.example.sda_a4_2024_bradleyweibel"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqt4Ggcd4VGAsa83-9-L6dZSgsSE5omPA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

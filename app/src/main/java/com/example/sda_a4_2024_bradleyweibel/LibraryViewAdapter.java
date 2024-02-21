@@ -19,6 +19,7 @@ package com.example.sda_a4_2024_bradleyweibel;
 import static com.example.sda_a4_2024_bradleyweibel.Helper.showToast;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,7 @@ import java.util.ArrayList;
 
 public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.ViewHolder> {
 
-    private static final String TAG = "RecyclerViewAdapter";
+    SharedPreferences userDetails;
     private Context mNewContext;
     // Arrays for each aspect of a book
     private ArrayList<String> authorList, titleList, bookCoverUrlList;
@@ -70,14 +71,24 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
         // Use Glide to get the image from the URL and insert it into the imageItem object
         Glide.with(mNewContext).load(bookCoverUrlList.get(position)).apply(new RequestOptions()).into(viewHolder.imageItem);
 
-        // TODO should check here to see if the book is available.
-        viewHolder.checkOut.setOnClickListener(new View.OnClickListener() {
+        // Checkout button clicked
+        viewHolder.checkOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                showToast(titleList.get(position), mNewContext);
-                //...
-                Intent myOrder = new Intent (mNewContext, CheckOut.class);
-                mNewContext.startActivity(myOrder);
+                // Check if user has an account before proceeding to book checkout
+                // Get shared preferences
+                userDetails = mNewContext.getSharedPreferences("UserDetailsPreferences", Context.MODE_PRIVATE);
+                // Get user id in SharedPreferences
+                String currentSavedUserId = userDetails.getString("id", "");
+
+                // If no details exist, show error message
+                if (currentSavedUserId.equals(""))
+                    showToast(mNewContext.getString(R.string.create_account_error), mNewContext);
+                else {
+                    // Account located, open checkout page
+                    Intent myOrder = new Intent(mNewContext, CheckOut.class);
+                    mNewContext.startActivity(myOrder);
+                }
             }
         });
     }
@@ -88,21 +99,20 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
     }
 
     // Populate the UI elements using the view holder class for the UI side recycler_list_item.xml
-    class ViewHolder extends RecyclerView.ViewHolder{
-
+    class ViewHolder extends RecyclerView.ViewHolder
+    {
         ImageView imageItem;
-        TextView authorText;
-        TextView titleText;
-        Button checkOut;
+        TextView authorText, titleText;
+        Button checkOutBtn;
         RelativeLayout itemParentLayout;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
-            //grab the image, the text and the layout id's
+            // Insert the image, texts into the UI counterparts and get the checkout button
             imageItem = itemView.findViewById(R.id.bookImage);
             authorText = itemView.findViewById(R.id.authorText);
             titleText = itemView.findViewById(R.id.bookTitle);
-            checkOut = itemView.findViewById(R.id.out_button);
+            checkOutBtn = itemView.findViewById(R.id.out_button);
             itemParentLayout = itemView.findViewById(R.id.listItemLayout);
         }
     }

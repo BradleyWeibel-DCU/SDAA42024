@@ -48,7 +48,7 @@ public class BookList extends Fragment {
         // Get reference for database containing all library books and their info
         DatabaseReference databaseLibraryReference = firebaseDatabase.getReference("Library_Books");
 
-        // Loop to add the each book's data to the array without typing each one
+        // Loop to add each book's data to the appropriate array
         for (int i = 1; i <= 14; i++)
         {
             // Get book details at specific key - for example: sku10001

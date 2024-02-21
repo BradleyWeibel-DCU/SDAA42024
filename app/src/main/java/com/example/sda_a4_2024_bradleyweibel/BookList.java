@@ -30,14 +30,15 @@ public class BookList extends Fragment {
     public BookList() { } // Required empty public constructor
 
     // Array for each value of a book
+    ArrayList<String> idList = new ArrayList<>();
     ArrayList<String> authorList = new ArrayList<>();
     ArrayList<String> titleList = new ArrayList<>();
     ArrayList<String> bookCoverURLList = new ArrayList<>();
     RecyclerView recyclerView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_book_list, container, false);
 
@@ -65,6 +66,7 @@ public class BookList extends Fragment {
                             // Get desired row/entry from Library_Books table
                             DataSnapshot dataSnapshot = task.getResult();
                             // Get cells in table entry
+                            idList.add(String.valueOf(dataSnapshot.getKey()));
                             authorList.add(String.valueOf(dataSnapshot.child("Author").getValue()));
                             titleList.add(String.valueOf(dataSnapshot.child("Title").getValue()));
                             bookCoverURLList.add(String.valueOf(dataSnapshot.child("Cover").getValue()));
@@ -85,10 +87,10 @@ public class BookList extends Fragment {
     // Only populate the Books tab when all Library_Books table data has been retrieved from the Firebase Realtime Database
     private void populateBookList()
     {
-        if (authorList.size() == 14 && titleList.size() == 14 && bookCoverURLList.size() == 14)
+        if (idList.size() == 14 && authorList.size() == 14 && titleList.size() == 14 && bookCoverURLList.size() == 14)
         {
             Log.i(TAG, "----------------------------- Ready to populate !!!!!!!!!!!!!");
-            LibraryViewAdapter recyclerViewAdapter = new LibraryViewAdapter(getContext(), authorList, titleList, bookCoverURLList);
+            LibraryViewAdapter recyclerViewAdapter = new LibraryViewAdapter(getContext(), idList, authorList, titleList, bookCoverURLList);
             recyclerView.setAdapter(recyclerViewAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             Log.i(TAG, "----------------------------- Finished populating !!!!!!!!!!!!!!!!!!!!!!!!!!");

@@ -85,7 +85,7 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
             @Override
             public void onClick(View v){
                 // Check if user has an account before proceeding to book checkout
-                // Get shared preferences
+                // Get user SharedPreferences
                 userDetails = mNewContext.getSharedPreferences("UserDetailsPreferences", Context.MODE_PRIVATE);
                 // Get user id in SharedPreferences
                 String currentSavedUserId = userDetails.getString("id", "");
@@ -98,8 +98,9 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
                     String bookId = v.getTag().toString();
                     // Get default FirebaseDatabase instance
                     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                    // Get reference for database containing all library books and their info
+                    // Get references for database containing all library books, bookings and their info
                     DatabaseReference databaseLibraryReference = firebaseDatabase.getReference("Library_Books");
+                    DatabaseReference databaseBookingsReference = firebaseDatabase.getReference("Library_Bookings");
                     databaseLibraryReference.child(bookId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>()
                     {
                         @Override
@@ -122,9 +123,29 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
                             editor.putString("cover", cover);
                             editor.apply();
 
-                            // Open checkout page
-                            Intent myOrder = new Intent(mNewContext, CheckOut.class);
-                            mNewContext.startActivity(myOrder);
+                            // Get availability information
+                            databaseBookingsReference.child(bookId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>()
+                            {
+                                @Override
+                                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                    // Get desired book entry from Library_Bookings table
+                                    DataSnapshot dataSnapshot = task.getResult();
+                                    // Get cells in table entry
+                                    Boolean availabilityStatus = Boolean.parseBoolean(dataSnapshot.child("Availability").getValue().toString());
+                                    String bookedByUserId = dataSnapshot.child("User_Id").getValue().toString();
+                                    String bookedFrom = dataSnapshot.child("Booked_From").getValue().toString();
+
+                                    // Insert values into SharedPreferences
+                                    editor.putBoolean("availability", availabilityStatus);
+                                    editor.putString("bookedByUserId", bookedByUserId);
+                                    editor.putString("bookedFrom", bookedFrom);
+                                    editor.apply();
+
+                                    // Open checkout page
+                                    Intent myOrder = new Intent(mNewContext, CheckOut.class);
+                                    mNewContext.startActivity(myOrder);
+                                }
+                            });
                         }
                     });
                 }

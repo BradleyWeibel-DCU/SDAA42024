@@ -18,6 +18,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/backToListBtn"
+        android:layout_width="57dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:clickable="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:srcCompat="@drawable/back_arrow" />
+
     <ImageView
         android:id="@+id/bookImage"
         android:layout_width="130dp"
@@ -106,7 +117,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/plc_availability"
+        android:text="@string/available_text"
         android:textColor="@color/colorPrimary"
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -115,7 +126,7 @@
         app:layout_constraintTop_toBottomOf="@+id/bookAuthorRight" />
 
     <Button
-        android:id="@+id/date"
+        android:id="@+id/selectDateBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -123,41 +134,58 @@
         android:padding="10dp"
         android:background="@color/colorButtonBackground"
         android:onClick="onDateClicked"
-        android:text="Select Date"
+        android:text="@string/choose_date_button"
         android:textColor="@color/colorPrimary"
-        app:layout_constraintBaseline_toBaselineOf="@+id/orderButton"
-        app:layout_constraintEnd_toStartOf="@+id/orderButton"
+        app:layout_constraintBaseline_toBaselineOf="@+id/placeOrderBtn"
+        app:layout_constraintEnd_toStartOf="@+id/placeOrderBtn"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/orderButton"
+        android:id="@+id/placeOrderBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="32dp"
         android:padding="10dp"
-        android:background="@color/colorButtonBackground"
-        android:text="Send Order"
+        android:background="@color/colorButtonDisabledBackground"
+        android:text="@string/send_order_button"
         android:textColor="@color/colorPrimary"
+        android:onClick="onPlaceOrderClicked"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/date"
+        app:layout_constraintStart_toEndOf="@+id/selectDateBtn"
         app:layout_constraintTop_toBottomOf="@+id/bookAvailabilityLeft" />
+
+    <Button
+        android:id="@+id/returnBookBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorButtonDisabledBackground"
+        android:padding="10dp"
+        android:text="@string/return_book_button"
+        android:textColor="@color/colorPrimary"
+        android:onClick="onReturnBookClicked"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectDateBtn" />
 
     <TextView
         android:id="@+id/orderSummary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:text=""
         android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date" />
+        app:layout_constraintTop_toBottomOf="@+id/returnBookBtn" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

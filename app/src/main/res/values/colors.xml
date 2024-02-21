@@ -13,6 +13,7 @@
     <color name="colorToastText">#000000</color>
 
     <color name="colorButtonBackground">#ffbf00</color>
+    <color name="colorButtonDisabledBackground">#2A000000</color>
     <color name="colorScreenBackground">#bf9b30</color>
     <color name="colorAccent">#646468</color>
     <color name="TabText">#646468</color>

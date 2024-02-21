@@ -5,7 +5,6 @@
     <string name="images_desc">Book Thumb</string>
     <string name="plc_author">Edgar Rice Burroughs</string>
     <string name="plc_title">Tarzan and the Golden Lion</string>
-    <string name="plc_availability">(Available)</string>
     <string name="border">border item</string>
 
     <!-- Home tab -->
@@ -32,6 +31,11 @@
     <string name="book_to_checkout">Book:</string>
     <string name="author_to_checkout">Author:</string>
     <string name="availability_checkout">Status:</string>
+    <string name="choose_date_button">Select Date</string>
+    <string name="send_order_button">Send Order</string>
+    <string name="return_book_button">Return Book</string>
+    <string name="available_text">(Available)</string>
+    <string name="unavailable_text">(Unavailable)</string>
 
     <!-- Toast error messages -->
     <string name="name_missing_error">Please enter your full name</string>

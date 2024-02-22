@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import java.util.Calendar;
 
 public class CheckOut extends AppCompatActivity {
@@ -28,6 +30,8 @@ public class CheckOut extends AppCompatActivity {
     Button selectDateBtn, placeOrderBtn, returnBookBtn;
     Calendar calenderChosenDateTime = Calendar.getInstance();
     long currentDateTime = calenderChosenDateTime.getTimeInMillis();
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    DatabaseReference databaseBookingsReference = firebaseDatabase.getReference("Library_Bookings");;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -48,6 +52,7 @@ public class CheckOut extends AppCompatActivity {
         selectDateBtn = findViewById(R.id.selectDateBtn);
         placeOrderBtn = findViewById(R.id.placeOrderBtn);
         returnBookBtn = findViewById(R.id.returnBookBtn);
+        displaySummary = findViewById(R.id.orderSummary);
 
         // Get context
         mNewContext = getApplicationContext();
@@ -59,7 +64,6 @@ public class CheckOut extends AppCompatActivity {
 
         // Get book details stored in SharedPreferences
         bookDetails = mNewContext.getSharedPreferences("BookDetailsPreferences", Context.MODE_PRIVATE);
-        //String currentBookId = bookDetails.getString("bookId", "");
         String currentAuthor = bookDetails.getString("author", "");
         String currentTitle = bookDetails.getString("title", "");
         String currentCoverURL = bookDetails.getString("cover", "");
@@ -95,9 +99,6 @@ public class CheckOut extends AppCompatActivity {
             else                                            // Book is reserved by another user
                 setClickabilityOfReturnBookBtn(false);
         }
-
-        // Attach summary textview variable to UI element
-        displaySummary = findViewById(R.id.orderSummary);
 
         // Button to return to previous page is clicked
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -181,9 +182,27 @@ public class CheckOut extends AppCompatActivity {
     // Return-book button clicked
     public void onReturnBookClicked(View v)
     {
-        // Remove user data from Firebase Database
-        // TODO
+        // Remove user-data from Firebase Library_Bookings Database to release book
+        // Get book Id
+        String currentBookId = bookDetails.getString("bookId", "");
+        // Update columns in desired entry/row
+        databaseBookingsReference.child(currentBookId).child("Availability").setValue(true);
+        databaseBookingsReference.child(currentBookId).child("Booked_From").setValue("");
+        databaseBookingsReference.child(currentBookId).child("Order_Placed").setValue("");
+        databaseBookingsReference.child(currentBookId).child("User_Id").setValue("");
+
+        // Update SharedPreferences
+        // Create edit shared preferences variable
+        SharedPreferences.Editor editor = bookDetails.edit();
+        // Insert values into SharedPreferences
+        editor.putBoolean("availability", true);
+        editor.putString("bookedByUserId", "");
+        editor.putString("bookedFrom", "");
+        editor.apply();
+
         // Reload page
+        finish();
+        startActivity(getIntent());
     }
 
     // Place order button clicked

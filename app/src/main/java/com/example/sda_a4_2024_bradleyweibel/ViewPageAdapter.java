@@ -15,14 +15,16 @@ public class ViewPageAdapter extends FragmentPagerAdapter {
 
     private Context context;
 
-    ViewPageAdapter(FragmentManager fm, int behavior, Context nContext) {
+    ViewPageAdapter(FragmentManager fm, int behavior, Context nContext)
+    {
         super(fm, behavior);
         context = nContext;
     }
 
     @NonNull
     @Override
-    public Fragment getItem(int position) {
+    public Fragment getItem(int position)
+    {
 
         Fragment fragment = new Fragment();
 
@@ -50,12 +52,14 @@ public class ViewPageAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public int getCount() {
+    public int getCount()
+    {
         return 3;
     }
 
     @Override
-    public CharSequence getPageTitle(int position) {
+    public CharSequence getPageTitle(int position)
+    {
         position = position+1;
 
         CharSequence tabTitle = "";

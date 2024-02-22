@@ -19,6 +19,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.sdaassign4_2020", appContext.getPackageName());
+        assertEquals(R.string.package_name, appContext.getPackageName());
     }
 }

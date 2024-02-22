@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Halls of History</string>
+    <string name="package_name">com.example.sda_a4_2024_bradleyweibel</string>
 
     <!-- General texts -->
     <string name="images_desc">Book Thumb</string>

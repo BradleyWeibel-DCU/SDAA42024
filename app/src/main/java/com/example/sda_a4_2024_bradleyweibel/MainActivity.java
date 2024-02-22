@@ -14,10 +14,11 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT = 1;
 
-    ViewPager viewPager;
+    private ViewPager viewPager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

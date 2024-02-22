@@ -15,9 +15,9 @@ In addition to, receiving a 100% for my 4th assignment from Dublin City Universi
 **Proposed changes:**
 - Landscape mode layout can be improved.
 - The 14 book loop is hard coded and can be changed to fetch all the entries in the Library_Books Firebase table, making it dynamic.
--	If the book name is too long it overlaps with the ‘Book:’ text on the left side of the checkout screen, it only happens with one book, but can be improved.
--	Let the user choose how many days they want to reserve a book for, rather than the library’s standard two-week period.
--	A journal table needs to be created as the user can return a book in the app, however, upon doing son, all their data is scrubbed from the bookings table and if they did not actually return it this would mean there is no way of knowing who last had the book. So, a journal table would be needed.
+- If the book name is too long it overlaps with the ‘Book:’ text on the left side of the checkout screen, it only happens with one book, but can be improved.
+- Let the user choose how many days they want to reserve a book for, rather than the library’s standard two-week period.
+- A journal table needs to be created as the user can return a book in the app, however, upon doing son, all their data is scrubbed from the bookings table and if they did not actually return it this would mean there is no way of knowing who last had the book. So, a journal table would be needed.
 
 **Image usage:**
 All images and icons were either provided by DCU tutors or soured using Google's creative use filter.

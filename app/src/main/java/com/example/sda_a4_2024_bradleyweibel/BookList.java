@@ -30,11 +30,11 @@ public class BookList extends Fragment {
     public BookList() { } // Required empty public constructor
 
     // Array for each value of a book
-    ArrayList<String> idList = new ArrayList<>();
-    ArrayList<String> authorList = new ArrayList<>();
-    ArrayList<String> titleList = new ArrayList<>();
-    ArrayList<String> bookCoverURLList = new ArrayList<>();
-    RecyclerView recyclerView;
+    private ArrayList<String> idList = new ArrayList<>();
+    private ArrayList<String> authorList = new ArrayList<>();
+    private ArrayList<String> titleList = new ArrayList<>();
+    private ArrayList<String> bookCoverURLList = new ArrayList<>();
+    private RecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -47,13 +47,13 @@ public class BookList extends Fragment {
         // Get default FirebaseDatabase instance
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         // Get reference for database containing all library books and their info
-        DatabaseReference databaseLibraryReference = firebaseDatabase.getReference("Library_Books");
+        DatabaseReference databaseLibraryReference = firebaseDatabase.getReference(Helper.LibraryBooks_Database);
 
         // Loop to add each book's data to the appropriate array
         for (int i = 1; i <= 14; i++)
         {
             // Get book details at specific key - for example: sku10001
-            databaseLibraryReference.child("sku1000" + i).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>()
+            databaseLibraryReference.child(Helper.DBEntry_RootName + i).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>()
             {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task)
@@ -62,14 +62,14 @@ public class BookList extends Fragment {
                     {
                         if (task.getResult().exists())
                         {
-                            Log.i(TAG, "------------------------- Successfully Read  -------------------------");
+                            Log.i(TAG, "------------------------- Successfully Read entry  -------------------------");
                             // Get desired row/entry from Library_Books table
                             DataSnapshot dataSnapshot = task.getResult();
                             // Get cells in table entry
                             idList.add(String.valueOf(dataSnapshot.getKey()));
-                            authorList.add(String.valueOf(dataSnapshot.child("Author").getValue()));
-                            titleList.add(String.valueOf(dataSnapshot.child("Title").getValue()));
-                            bookCoverURLList.add(String.valueOf(dataSnapshot.child("Cover").getValue()));
+                            authorList.add(String.valueOf(dataSnapshot.child(Helper.LibraryBook_Author).getValue()));
+                            titleList.add(String.valueOf(dataSnapshot.child(Helper.LibraryBook_Title).getValue()));
+                            bookCoverURLList.add(String.valueOf(dataSnapshot.child(Helper.LibraryBook_Cover).getValue()));
                             // Check if UI Book tab can be populated due to all data being present in lists
                             populateBookList();
                         }
@@ -89,13 +89,13 @@ public class BookList extends Fragment {
     {
         if (idList.size() == 14 && authorList.size() == 14 && titleList.size() == 14 && bookCoverURLList.size() == 14)
         {
-            Log.i(TAG, "----------------------------- Ready to populate !!!!!!!!!!!!!");
+            Log.i(TAG, "----------------------------- Ready to populate Book list page !!!!!!!!!!!!!");
             LibraryViewAdapter recyclerViewAdapter = new LibraryViewAdapter(getContext(), idList, authorList, titleList, bookCoverURLList);
             recyclerView.setAdapter(recyclerViewAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            Log.i(TAG, "----------------------------- Finished populating !!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Log.i(TAG, "----------------------------- Finished populating Book list page !!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
         else
-            Log.i(TAG, "----------------------------- NOT Ready to populate!");
+            Log.i(TAG, "----------------------------- NOT Ready to populate Book page yet!");
     }
 }

@@ -15,7 +15,8 @@ public class Welcome extends Fragment {
     public Welcome() { } // Required empty public constructor
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_welcome, container, false);
         return root;

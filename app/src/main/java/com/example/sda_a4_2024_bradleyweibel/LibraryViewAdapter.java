@@ -50,7 +50,8 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
     private ArrayList<String> idList, authorList, titleList, bookCoverUrlList;
 
     // Get context for Glide and lists containing string data
-    LibraryViewAdapter(Context mNewContext, ArrayList<String> idList, ArrayList<String> authorList, ArrayList<String> titleList, ArrayList<String> bookCoverURLList) {
+    LibraryViewAdapter(Context mNewContext, ArrayList<String> idList, ArrayList<String> authorList, ArrayList<String> titleList, ArrayList<String> bookCoverURLList)
+    {
         this.mNewContext = mNewContext;
         this.idList = idList;
         this.authorList = authorList;
@@ -81,66 +82,71 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
         Glide.with(mNewContext).load(bookCoverUrlList.get(position)).apply(new RequestOptions()).into(viewHolder.imageItem);
 
         // Checkout button clicked
-        viewHolder.checkOutBtn.setOnClickListener(new View.OnClickListener() {
+        viewHolder.checkOutBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v){
+            public void onClick(View v)
+            {
                 // Check if user has an account before proceeding to book checkout
                 // Get user SharedPreferences
-                userDetails = mNewContext.getSharedPreferences("UserDetailsPreferences", Context.MODE_PRIVATE);
+                userDetails = mNewContext.getSharedPreferences(Helper.UserDetails_SharedPreferences, Context.MODE_PRIVATE);
                 // Get user id in SharedPreferences
-                String currentSavedUserId = userDetails.getString("id", "");
+                String currentSavedUserId = userDetails.getString(Helper.UserDetails_Preference_Id, "");
                 // If no details exist, show error message
                 if (currentSavedUserId.equals(""))
                     showToast(mNewContext.getString(R.string.create_account_error), mNewContext);
-                else {
+                else
+                {
                     // Account accepted!
                     // Get book details
                     String bookId = v.getTag().toString();
                     // Get default FirebaseDatabase instance
                     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                     // Get references for database containing all library books, bookings and their info
-                    DatabaseReference databaseLibraryReference = firebaseDatabase.getReference("Library_Books");
-                    DatabaseReference databaseBookingsReference = firebaseDatabase.getReference("Library_Bookings");
+                    DatabaseReference databaseLibraryReference = firebaseDatabase.getReference(Helper.LibraryBooks_Database);
+                    DatabaseReference databaseBookingsReference = firebaseDatabase.getReference(Helper.LibraryBookings_Database);
                     databaseLibraryReference.child(bookId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>()
                     {
                         @Override
-                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        public void onComplete(@NonNull Task<DataSnapshot> task)
+                        {
                             // Get desired book entry from Library_Books table
                             DataSnapshot dataSnapshot = task.getResult();
                             // Get cells in table entry
-                            String author = dataSnapshot.child("Author").getValue().toString();
-                            String title = dataSnapshot.child("Title").getValue().toString();
-                            String cover = dataSnapshot.child("Cover").getValue().toString();
+                            String author = dataSnapshot.child(Helper.LibraryBook_Author).getValue().toString();
+                            String title = dataSnapshot.child(Helper.LibraryBook_Title).getValue().toString();
+                            String cover = dataSnapshot.child(Helper.LibraryBook_Cover).getValue().toString();
                             // Save details in SharedPreferences
                             // Initiate book details shared preferences
-                            bookDetails = mNewContext.getSharedPreferences("BookDetailsPreferences", Context.MODE_PRIVATE);
+                            bookDetails = mNewContext.getSharedPreferences(Helper.BookDetails_SharedPreferences, Context.MODE_PRIVATE);
                             // Create edit shared preferences variable
                             SharedPreferences.Editor editor = bookDetails.edit();
                             // Insert values
-                            editor.putString("bookId", bookId);
-                            editor.putString("author", author);
-                            editor.putString("title", title);
-                            editor.putString("cover", cover);
+                            editor.putString(Helper.BookDetails_Preference_BookId, bookId);
+                            editor.putString(Helper.BookDetails_Preference_Author, author);
+                            editor.putString(Helper.BookDetails_Preference_Title, title);
+                            editor.putString(Helper.BookDetails_Preference_Cover, cover);
                             editor.apply();
 
                             // Get availability information
                             databaseBookingsReference.child(bookId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>()
                             {
                                 @Override
-                                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                public void onComplete(@NonNull Task<DataSnapshot> task)
+                                {
                                     // Get desired book entry from Library_Bookings table
                                     DataSnapshot dataSnapshot = task.getResult();
                                     // Get cells in table entry
-                                    Boolean availabilityStatus = Boolean.parseBoolean(dataSnapshot.child("Availability").getValue().toString());
-                                    String bookedByUserId = dataSnapshot.child("User_Id").getValue().toString();
-                                    String bookedFrom = dataSnapshot.child("Booked_From").getValue().toString();
-                                    String bookedTill = dataSnapshot.child("Booked_Till").getValue().toString();
+                                    Boolean availabilityStatus = Boolean.parseBoolean(dataSnapshot.child(Helper.LibraryBookings_Availability).getValue().toString());
+                                    String bookedByUserId = dataSnapshot.child(Helper.LibraryBookings_User_Id).getValue().toString();
+                                    String bookedFrom = dataSnapshot.child(Helper.LibraryBookings_Booked_From).getValue().toString();
+                                    String bookedTill = dataSnapshot.child(Helper.LibraryBookings_Booked_Till).getValue().toString();
 
                                     // Insert values into SharedPreferences
-                                    editor.putBoolean("availability", availabilityStatus);
-                                    editor.putString("bookedByUserId", bookedByUserId);
-                                    editor.putString("bookedFrom", bookedFrom);
-                                    editor.putString("bookedTill", bookedTill);
+                                    editor.putBoolean(Helper.BookDetails_Preference_Availability, availabilityStatus);
+                                    editor.putString(Helper.BookDetails_Preference_UserId, bookedByUserId);
+                                    editor.putString(Helper.BookDetails_Preference_Booked_From, bookedFrom);
+                                    editor.putString(Helper.BookDetails_Preference_Booked_Till, bookedTill);
                                     editor.apply();
 
                                     // Open checkout page
@@ -168,7 +174,8 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
         Button checkOutBtn;
         RelativeLayout itemParentLayout;
 
-        ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView)
+        {
             super(itemView);
             // Attach the image, textViews to the UI counterparts and get the checkout button
             imageItem = itemView.findViewById(R.id.bookImage);

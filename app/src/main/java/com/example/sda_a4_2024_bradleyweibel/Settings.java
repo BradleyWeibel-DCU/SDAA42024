@@ -16,19 +16,20 @@ import java.util.regex.Pattern;
 /**
  * A simple {@link Fragment} subclass.
  */
+
 public class Settings extends Fragment {
 
     // Create variables for UI elements
-    Button clearBtn, resetBtn, saveBtn;
-    EditText userNameField, userAddressField, userZIPField, userTownField, userPhoneNumberField, userEmailAddressField, userIdField;
+    private Button clearBtn, resetBtn, saveBtn;
+    private EditText userNameField, userAddressField, userZIPField, userTownField, userPhoneNumberField, userEmailAddressField, userIdField;
     // Other variables
-    SharedPreferences userDetails;
+    private SharedPreferences userDetails;
 
     public Settings() {} // Required empty public constructor
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         // Inflate the layout for this fragment get the root view.
         final View root = inflater.inflate(R.layout.fragment_settings, container, false);
 
@@ -47,14 +48,16 @@ public class Settings extends Fragment {
         saveBtn = root.findViewById(R.id.saveDetailsBtn);
 
         // Get shared preferences
-        userDetails = this.getActivity().getSharedPreferences("UserDetailsPreferences", Context.MODE_PRIVATE);
+        userDetails = this.getActivity().getSharedPreferences(Helper.UserDetails_SharedPreferences, Context.MODE_PRIVATE);
         // Populate fields from saved data
         populateUserDetailsFieldsWithSavedData();
 
         // Clear details onclick, remove text from UI fields, but not data in memory
-        clearBtn.setOnClickListener(new View.OnClickListener() {
+        clearBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 // Clear data
                 userNameField.setText("");
                 userAddressField.setText("");
@@ -69,11 +72,13 @@ public class Settings extends Fragment {
         });
 
         // Reset details onclick, fetch details from SharedPreferences if exist
-        resetBtn.setOnClickListener(new View.OnClickListener() {
+        resetBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 // Check if account details already exist
-                String currentSavedUserId = userDetails.getString("id", "");
+                String currentSavedUserId = userDetails.getString(Helper.UserDetails_Preference_Id, "");
                 // If no details exist, show error message
                 if (currentSavedUserId.equals(""))
                     showToast(getString(R.string.missing_account_error), getContext());
@@ -90,9 +95,11 @@ public class Settings extends Fragment {
         });
 
         // Save details onclick, check all fields are populated, save data if true
-        saveBtn.setOnClickListener(new View.OnClickListener() {
+        saveBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 // Check if all details are populated (user is prompted if not via Toast messages)
                 if (areAllDetailsPopulated())
                 {
@@ -100,19 +107,19 @@ public class Settings extends Fragment {
                     // Get user's name without any spaces
                     String userName = userNameField.getText().toString().replaceAll("\\s+","");
                     // Add number behind
-                    String userId = userName + "_001";
+                    String userId = userName + Helper.UserName_Counter;
                     // insert into readonly Id field - to be saved below with the other values
                     userIdField.setText(userId);
 
                     // Save/overwrite details in SharedPreferences
                     SharedPreferences.Editor editor = userDetails.edit();
-                    editor.putString("name", userNameField.getText().toString().trim());
-                    editor.putString("address", userAddressField.getText().toString().trim());
-                    editor.putString("zip", userZIPField.getText().toString());
-                    editor.putString("town", userTownField.getText().toString().trim());
-                    editor.putString("phone", userPhoneNumberField.getText().toString());
-                    editor.putString("email", userEmailAddressField.getText().toString().trim());
-                    editor.putString("id", userIdField.getText().toString());
+                    editor.putString(Helper.UserDetails_Preference_Name, userNameField.getText().toString().trim());
+                    editor.putString(Helper.UserDetails_Preference_Address, userAddressField.getText().toString().trim());
+                    editor.putString(Helper.UserDetails_Preference_Zip, userZIPField.getText().toString());
+                    editor.putString(Helper.UserDetails_Preference_Town, userTownField.getText().toString().trim());
+                    editor.putString(Helper.UserDetails_Preference_Phone, userPhoneNumberField.getText().toString());
+                    editor.putString(Helper.UserDetails_Preference_Email, userEmailAddressField.getText().toString().trim());
+                    editor.putString(Helper.UserDetails_Preference_Id, userIdField.getText().toString());
                     editor.apply();
 
                     // Show success message
@@ -127,13 +134,13 @@ public class Settings extends Fragment {
     // Populate fields from saved data
     private void populateUserDetailsFieldsWithSavedData()
     {
-        userNameField.setText(userDetails.getString("name", ""));
-        userAddressField.setText(userDetails.getString("address", ""));
-        userZIPField.setText(userDetails.getString("zip", ""));
-        userTownField.setText(userDetails.getString("town", ""));
-        userPhoneNumberField.setText(userDetails.getString("phone", ""));
-        userEmailAddressField.setText(userDetails.getString("email", ""));
-        userIdField.setText(userDetails.getString("id", ""));
+        userNameField.setText(userDetails.getString(Helper.UserDetails_Preference_Name, ""));
+        userAddressField.setText(userDetails.getString(Helper.UserDetails_Preference_Address, ""));
+        userZIPField.setText(userDetails.getString(Helper.UserDetails_Preference_Zip, ""));
+        userTownField.setText(userDetails.getString(Helper.UserDetails_Preference_Town, ""));
+        userPhoneNumberField.setText(userDetails.getString(Helper.UserDetails_Preference_Phone, ""));
+        userEmailAddressField.setText(userDetails.getString(Helper.UserDetails_Preference_Email, ""));
+        userIdField.setText(userDetails.getString(Helper.UserDetails_Preference_Id, ""));
     }
 
     // Check if all detail fields are properly populated (user is prompted if not via Toast messages)

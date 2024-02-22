@@ -36,6 +36,20 @@ public class BookList extends Fragment {
     private ArrayList<String> bookCoverURLList = new ArrayList<>();
     private RecyclerView recyclerView;
 
+    /**
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * Used to get the book data from the Firebase Database and pass the arrays to the LibraryViewAdapter to create each item in the UI list.
+     *
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -85,6 +99,12 @@ public class BookList extends Fragment {
     }
 
     // Only populate the Books tab when all Library_Books table data has been retrieved from the Firebase Realtime Database
+
+    /**
+     * populateBookList() is called each time a response comes from the database, however the
+     * method only passes the values to the LibraryViewAdapter once all 14 DB entries are in
+     * each array.
+     */
     private void populateBookList()
     {
         if (idList.size() == 14 && authorList.size() == 14 && titleList.size() == 14 && bookCoverURLList.size() == 14)

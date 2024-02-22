@@ -25,8 +25,28 @@ public class Settings extends Fragment {
     // Other variables
     private SharedPreferences userDetails;
 
+    /**
+     * Required empty public constructor
+     */
     public Settings() {} // Required empty public constructor
 
+    /**
+     * Used to get the page ready, map local variables to UI elements, populating the fields
+     * with the saved data in the shared preferences.
+     * OnClick for clearing UI fields of text.
+     * Onclick for resetting the fields to the data already saved in shared preferences.
+     * Onclick for updating the data in shard preferences if the data passes validation which
+     * is done in another local method.
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -132,6 +152,9 @@ public class Settings extends Fragment {
     }
 
     // Populate fields from saved data
+    /**
+     * Used to populate the UI elements with the data from shared preferences.
+     */
     private void populateUserDetailsFieldsWithSavedData()
     {
         userNameField.setText(userDetails.getString(Helper.UserDetails_Preference_Name, ""));
@@ -144,6 +167,11 @@ public class Settings extends Fragment {
     }
 
     // Check if all detail fields are properly populated (user is prompted if not via Toast messages)
+    /**
+     * Check of data in fields pass validation. Deeper validation is outsourced.
+     * Error messages are shown if field is not acceptable.
+     * @return true if data passes validation.
+     */
     private boolean areAllDetailsPopulated()
     {
         // Get string values from UI
@@ -188,6 +216,12 @@ public class Settings extends Fragment {
     }
 
     // Validation methods
+
+    /**
+     * Validation for name and town fields.
+     * @param text from UI field
+     * @return true is pass validation, false if not.
+     */
     private boolean isNameOrTownValid(String text)
     {
         // Create return value
@@ -204,6 +238,12 @@ public class Settings extends Fragment {
         }
         return result;
     }
+
+    /**
+     * Validation for address field.
+     * @param address from UI field
+     * @return true if data passes validation, false if not.
+     */
     private boolean isAddressValid(String address)
     {
         // Create return value
@@ -220,6 +260,12 @@ public class Settings extends Fragment {
         }
         return result;
     }
+
+    /**
+     * Validation for email field.
+     * @param email text from Ui.
+     * @return true if passes validation, false if not.
+     */
     private boolean isEmailValid(String email)
     {
         Pattern pattern = Pattern.compile("^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$", Pattern.CASE_INSENSITIVE);

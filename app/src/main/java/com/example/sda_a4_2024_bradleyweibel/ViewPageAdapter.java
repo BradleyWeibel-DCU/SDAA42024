@@ -10,17 +10,27 @@ import androidx.fragment.app.FragmentPagerAdapter;
  * viewPager adapter.
  * @author Chris Coughlan 2019
  */
-
 public class ViewPageAdapter extends FragmentPagerAdapter {
 
     private Context context;
 
+    /**
+     *
+     * @param fm
+     * @param behavior
+     * @param nContext
+     */
     ViewPageAdapter(FragmentManager fm, int behavior, Context nContext)
     {
         super(fm, behavior);
         context = nContext;
     }
 
+    /**
+     *
+     * @param position
+     * @return
+     */
     @NonNull
     @Override
     public Fragment getItem(int position)
@@ -51,12 +61,21 @@ public class ViewPageAdapter extends FragmentPagerAdapter {
         return fragment;
     }
 
+    /**
+     *
+     * @return 3 for how many tab headers there are.
+     */
     @Override
     public int getCount()
     {
         return 3;
     }
 
+    /**
+     *
+     * @param position The position of the title requested
+     * @return
+     */
     @Override
     public CharSequence getPageTitle(int position)
     {

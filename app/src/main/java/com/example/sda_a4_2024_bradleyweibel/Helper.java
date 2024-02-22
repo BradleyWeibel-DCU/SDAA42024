@@ -52,6 +52,11 @@ public class Helper {
     public final static String UserName_Counter = "_001";
 
     // Show a customized toast message
+    /**
+     * Method shows custom toast message.
+     * @param message the message that the user is shown.
+     * @param context
+     */
     public static void showToast(String message, Context context)
     {
         // Create toast object

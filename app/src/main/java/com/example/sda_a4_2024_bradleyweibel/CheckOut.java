@@ -33,6 +33,16 @@ public class CheckOut extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseBookingsReference = firebaseDatabase.getReference(Helper.LibraryBookings_Database);;
 
+    /**
+     *
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     * Prepares the CheckOut page.
+     * Includes onclick code for back arrow (to return to the Book list page).
+     * Gets the relevant information on the book which has been selected from SharedPreferences.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -127,6 +137,10 @@ public class CheckOut extends AppCompatActivity {
     }
 
     // Clickability of button handling
+    /**
+     * Used to either enable or disable the Select Date button and set it's colour accordingly.
+     * @param status
+     */
     private void setClickabilityOfSelectDateBtn(Boolean status)
     {
         if (status)
@@ -140,6 +154,10 @@ public class CheckOut extends AppCompatActivity {
             selectDateBtn.setClickable(false);
         }
     }
+    /**
+     * Used to either enable or disable the Send Order button and set it's colour accordingly.
+     * @param status
+     */
     private void setClickabilityOfPlaceOrderBtn(Boolean status)
     {
         if (status)
@@ -153,6 +171,10 @@ public class CheckOut extends AppCompatActivity {
             placeOrderBtn.setClickable(false);
         }
     }
+    /**
+     * Used to either enable or disable the Return Book button and set it's colour accordingly.
+     * @param status
+     */
     private void setClickabilityOfReturnBookBtn(Boolean status)
     {
         if (status)
@@ -168,6 +190,13 @@ public class CheckOut extends AppCompatActivity {
     }
 
     // Select-date button clicked
+    /**
+     * Executes once the user has clicked the Select Date button.
+     * Shows a popup where the user can choose a date.
+     * If the chosen date is in the past, an error toast message is shown.
+     * If the date is in acceptable, triggers the updateProposalDisplay().
+     * @param v
+     */
     public void onDateClicked(View v)
     {
         DatePickerDialog.OnDateSetListener mDateListener = new DatePickerDialog.OnDateSetListener()
@@ -202,6 +231,14 @@ public class CheckOut extends AppCompatActivity {
     }
 
     // Show chosen date and time in summary section
+    /**
+     * Populates the summary section of the page with the proposed information of the booking
+     * and the user's name and id.
+     * The UI elements are made visible and then populated.
+     * The Send Order button is enabled.
+     * @param chosenDateLong
+     * @param proposedTillDateLong
+     */
     private void updateProposalDisplay(long chosenDateLong, long proposedTillDateLong)
     {
         // Get current date, time, selected date and proposed date
@@ -238,6 +275,13 @@ public class CheckOut extends AppCompatActivity {
     }
 
     // Place order button clicked
+    /**
+     * When the Send Order button is clicked.
+     * Send booking info to Library_Bookings and update entry.
+     * Update shared preferences with booked information.
+     * Update UI to reflect the books change in status.
+     * @param v
+     */
     public void onPlaceOrderClicked(View v)
     {
         // Get data from UI elements and SharedPreferences
@@ -276,6 +320,13 @@ public class CheckOut extends AppCompatActivity {
     }
 
     // Return-book button clicked
+    /**
+     * Onclick when the user returns the book.
+     * Update shared preferences.
+     * Update Library_Bookings database.
+     * Reload page.
+     * @param v
+     */
     public void onReturnBookClicked(View v)
     {
         // Remove user-data from Firebase Library_Bookings Database to release book
@@ -304,6 +355,9 @@ public class CheckOut extends AppCompatActivity {
     }
 
     // Clear proposal summary section and disable place order button
+    /**
+     * Used to make proposal fields invisible and disable Send Order button
+     */
     private void clearProposalSummaryDisplay()
     {
         setClickabilityOfPlaceOrderBtn(false);

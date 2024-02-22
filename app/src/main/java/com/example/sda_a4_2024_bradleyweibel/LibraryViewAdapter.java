@@ -50,6 +50,14 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
     private ArrayList<String> idList, authorList, titleList, bookCoverUrlList;
 
     // Get context for Glide and lists containing string data
+    /**
+     * Maps the passed context and string arrays to local ones.
+     * @param mNewContext
+     * @param idList
+     * @param authorList
+     * @param titleList
+     * @param bookCoverURLList
+     */
     LibraryViewAdapter(Context mNewContext, ArrayList<String> idList, ArrayList<String> authorList, ArrayList<String> titleList, ArrayList<String> bookCoverURLList)
     {
         this.mNewContext = mNewContext;
@@ -60,6 +68,14 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
     }
 
     // Declare methods
+    /**
+     *
+     * @param viewGroup The ViewGroup into which the new View will be added after it is bound to
+     *               an adapter position.
+     * @param i The view type of the new View.
+     *
+     * @return
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i)
@@ -68,6 +84,16 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
         return new ViewHolder(view);
     }
 
+    /**
+     * Used to populate the UI elements with the passed values.
+     * OnClick method for the Checkout button, if the user has an account, they can proceed
+     * to the checkout page, if not, they are shown an error.
+     * The checkout page needs data on the book, this data is fetched from the Library_Books
+     * and Library_Bookings databases and passed into shared preferences.
+     * @param viewHolder The ViewHolder which should be updated to represent the contents of the
+     *        item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position)
     {
@@ -161,12 +187,19 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
         });
     }
 
+    /**
+     * Used to determine how big is the author array - all arrays are equal length.
+     * @return
+     */
     @Override
     public int getItemCount() {
         return authorList.size();
     }
 
     // Attach the variables to the UI elements in the recycler_list_item.xml
+    /**
+     * Used to attach the variables here to the UI elements so they can later be populated.
+     */
     class ViewHolder extends RecyclerView.ViewHolder
     {
         ImageView imageItem;

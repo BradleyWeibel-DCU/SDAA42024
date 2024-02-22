@@ -24,7 +24,7 @@ public class CheckOut extends AppCompatActivity {
 
     private Context mNewContext;
     private SharedPreferences userDetails, bookDetails;
-    TextView displaySummary, bookAuthor, bookTitle, bookAvailability;
+    TextView bookAuthor, bookTitle, bookAvailability, userIdLabel, userIdHolder, userNameLabel, userNameHolder, checkoutDateLabel, checkoutDateHolder, returnDateLabel, returnDateHolder;
     ImageView bookCover;
     FloatingActionButton backBtn;
     Button selectDateBtn, placeOrderBtn, returnBookBtn;
@@ -52,7 +52,14 @@ public class CheckOut extends AppCompatActivity {
         selectDateBtn = findViewById(R.id.selectDateBtn);
         placeOrderBtn = findViewById(R.id.placeOrderBtn);
         returnBookBtn = findViewById(R.id.returnBookBtn);
-        displaySummary = findViewById(R.id.orderSummary);
+        userIdLabel = findViewById(R.id.userIdLeft);
+        userIdHolder = findViewById(R.id.userIdRight);
+        userNameLabel = findViewById(R.id.userNameLeft);
+        userNameHolder = findViewById(R.id.userNameRight);
+        checkoutDateLabel = findViewById(R.id.checkoutDateLeft);
+        checkoutDateHolder = findViewById(R.id.checkoutDateRight);
+        returnDateLabel = findViewById(R.id.returnDateLeft);
+        returnDateHolder = findViewById(R.id.returnDateRight);
 
         // Get context
         mNewContext = getApplicationContext();
@@ -61,7 +68,6 @@ public class CheckOut extends AppCompatActivity {
         userDetails = mNewContext.getSharedPreferences("UserDetailsPreferences", Context.MODE_PRIVATE);
         // Get user id in SharedPreferences
         String userId = userDetails.getString("id", "");
-
         // Get book details stored in SharedPreferences
         bookDetails = mNewContext.getSharedPreferences("BookDetailsPreferences", Context.MODE_PRIVATE);
         String currentAuthor = bookDetails.getString("author", "");
@@ -69,12 +75,14 @@ public class CheckOut extends AppCompatActivity {
         String currentCoverURL = bookDetails.getString("cover", "");
         Boolean currentAvailabilityStatus = bookDetails.getBoolean("availability", false);
         String currentlyBookedByUserId = bookDetails.getString("bookedByUserId", "");
-        String currentlyBookedFrom = bookDetails.getString("bookedFrom", "");
+        String currentlyBookedTill = bookDetails.getString("bookedTill", "");
 
         // Display book elements in UI
         bookTitle.setText(currentTitle);
         bookAuthor.setText(currentAuthor);
         Glide.with(mNewContext).load(currentCoverURL).apply(new RequestOptions()).into(bookCover);
+        // Hide UI elements not needed yet
+        clearProposalSummaryDisplay();
 
         // Button handling
         if (currentAvailabilityStatus)
@@ -83,21 +91,27 @@ public class CheckOut extends AppCompatActivity {
             // Book is available
             // User can select a reserve date for the book
             setClickabilityOfSelectDateBtn(true);
-            // User must first choose a date to submit the order
-            setClickabilityOfPlaceOrderBtn(false);
             // User cannot return the book
             setClickabilityOfReturnBookBtn(false);
         }
         else
         {
             // Book is unavailable
-            bookAvailability.setText(R.string.unavailable_text);
             setClickabilityOfSelectDateBtn(false);
-            setClickabilityOfPlaceOrderBtn(false);
-            if (currentlyBookedByUserId.equals(userId))     // Current user has reserved the book, allow user to RETURN the book
+            if (currentlyBookedByUserId.equals(userId))
+            {
+                // Current user has reserved the book, allow user to RETURN the book
+                String reservedText = getString(R.string.reserved_till_text) + " " + currentlyBookedTill + ")";
+                bookAvailability.setText(reservedText);
                 setClickabilityOfReturnBookBtn(true);
-            else                                            // Book is reserved by another user
+            }
+            else
+            {
+                // Book is reserved by another user
+                String reservedText = getString(R.string.unavailable_text) + " " + currentlyBookedTill + ")";
+                bookAvailability.setText(reservedText);
                 setClickabilityOfReturnBookBtn(false);
+            }
         }
 
         // Button to return to previous page is clicked
@@ -163,20 +177,101 @@ public class CheckOut extends AppCompatActivity {
                 calenderChosenDateTime.set(Calendar.YEAR, year);
                 calenderChosenDateTime.set(Calendar.MONTH, monthOfYear);
                 calenderChosenDateTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                // Handle booked till date (standard 14 day period)
+                Calendar calenderTillDate = Calendar.getInstance();
+                calenderTillDate.set(Calendar.YEAR, year);
+                calenderTillDate.set(Calendar.MONTH, monthOfYear);
+                calenderTillDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                calenderTillDate.add(Calendar.DAY_OF_YEAR, 14);
                 // Check if chosen date is already passed
-                long chosenDate = calenderChosenDateTime.getTimeInMillis();
-                if (currentDateTime > chosenDate)
+                long chosenFromDate = calenderChosenDateTime.getTimeInMillis();
+                long chosenTillDate = calenderTillDate.getTimeInMillis();
+                if (currentDateTime > chosenFromDate)
                 {
                     // Chosen date is in the past
                     showToast(getString(R.string.passed_date_error), getApplicationContext());
-                    clearDateAndTimeDisplay();
+                    clearProposalSummaryDisplay();
                 }
                 else // Chosen date is in the future
-                    updateDateAndTimeDisplay(chosenDate);
+                    updateProposalDisplay(chosenFromDate, chosenTillDate);
             }
         };
         // Show date picker popup
         new DatePickerDialog(CheckOut.this, mDateListener, calenderChosenDateTime.get(Calendar.YEAR), calenderChosenDateTime.get(Calendar.MONTH), calenderChosenDateTime.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    // Show chosen date and time in summary section
+    private void updateProposalDisplay(long chosenDateLong, long proposedTillDateLong)
+    {
+        // Get current date, time, selected date and proposed date
+        CharSequence currentTime = DateUtils.formatDateTime(this, chosenDateLong, DateUtils.FORMAT_SHOW_TIME);
+        CharSequence currentDate = DateUtils.formatDateTime(this, currentDateTime, DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR);
+        String timeOfOrder = currentDate + " " + currentTime;
+        CharSequence selectedDate = DateUtils.formatDateTime(this, chosenDateLong, DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR);
+        CharSequence proposedTillDate = DateUtils.formatDateTime(this, proposedTillDateLong, DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR);
+
+        // Insert proposal data in UI elements
+        userIdHolder.setText(userDetails.getString("id", ""));
+        userNameHolder.setText(userDetails.getString("name", ""));
+        checkoutDateHolder.setText(selectedDate);
+        returnDateHolder.setText(proposedTillDate);
+
+        // Show UI elements
+        userIdLabel.setVisibility(View.VISIBLE);
+        userIdHolder.setVisibility(View.VISIBLE);
+        userNameLabel.setVisibility(View.VISIBLE);
+        userNameHolder.setVisibility(View.VISIBLE);
+        checkoutDateLabel.setVisibility(View.VISIBLE);
+        checkoutDateHolder.setVisibility(View.VISIBLE);
+        returnDateLabel.setVisibility(View.VISIBLE);
+        returnDateHolder.setVisibility(View.VISIBLE);
+        // Make placeOrder button clickable
+        setClickabilityOfPlaceOrderBtn(true);
+
+        // Populate current date and time in SharedPreferences
+        // Create edit shared preferences variable
+        SharedPreferences.Editor editor = bookDetails.edit();
+        // Insert values into SharedPreferences
+        editor.putString("timeOfBooking", timeOfOrder);
+        editor.apply();
+    }
+
+    // Place order button clicked
+    public void onPlaceOrderClicked(View v)
+    {
+        // Get data from UI elements
+        String currentBookId = bookDetails.getString("bookId", "");
+        String userId = userDetails.getString("id", "");
+        String selectedDate = checkoutDateHolder.getText().toString();
+        String returnDate = returnDateHolder.getText().toString();
+        String currentDateTime = bookDetails.getString("timeOfBooking", "");
+
+        // Submit user data to Firebase Database
+        databaseBookingsReference.child(currentBookId).child("Availability").setValue(false);
+        databaseBookingsReference.child(currentBookId).child("Booked_From").setValue(selectedDate);
+        databaseBookingsReference.child(currentBookId).child("Booked_Till").setValue(returnDate);
+        databaseBookingsReference.child(currentBookId).child("Order_Placed").setValue(currentDateTime);
+        databaseBookingsReference.child(currentBookId).child("User_Id").setValue(userId);
+
+        // Update SharedPreferences
+        // Create edit shared preferences variable
+        SharedPreferences.Editor editor = bookDetails.edit();
+        // Insert values into SharedPreferences
+        editor.putBoolean("availability", false);
+        editor.putString("bookedByUserId", userId);
+        editor.putString("bookedFrom", selectedDate);
+        editor.putString("bookedTill", returnDate);
+        editor.apply();
+
+        // I chose to show a toast success rather than change the text in the summary section - I thought this cleaner
+        showToast(getString(R.string.success_book_reserved), mNewContext);
+
+        // Make final UI changes
+        setClickabilityOfSelectDateBtn(false);
+        setClickabilityOfPlaceOrderBtn(false);
+        setClickabilityOfReturnBookBtn(true);
+        String reservedText = getString(R.string.reserved_till_text) + " " + returnDate + ")";
+        bookAvailability.setText(reservedText);
     }
 
     // Return-book button clicked
@@ -188,6 +283,7 @@ public class CheckOut extends AppCompatActivity {
         // Update columns in desired entry/row
         databaseBookingsReference.child(currentBookId).child("Availability").setValue(true);
         databaseBookingsReference.child(currentBookId).child("Booked_From").setValue("");
+        databaseBookingsReference.child(currentBookId).child("Booked_Till").setValue("");
         databaseBookingsReference.child(currentBookId).child("Order_Placed").setValue("");
         databaseBookingsReference.child(currentBookId).child("User_Id").setValue("");
 
@@ -198,6 +294,7 @@ public class CheckOut extends AppCompatActivity {
         editor.putBoolean("availability", true);
         editor.putString("bookedByUserId", "");
         editor.putString("bookedFrom", "");
+        editor.putString("bookedTill", "");
         editor.apply();
 
         // Reload page
@@ -205,28 +302,17 @@ public class CheckOut extends AppCompatActivity {
         startActivity(getIntent());
     }
 
-    // Place order button clicked
-    public void onPlaceOrderClicked(View v)
+    // Clear proposal summary section and disable place order button
+    private void clearProposalSummaryDisplay()
     {
-        // Submit user data to Firebase Database
-        // TODO
-        // Reload page
-    }
-
-    // Show chosen date and time in summary section
-    private void updateDateAndTimeDisplay(long chosenDate)
-    {
-        //date time year
-        CharSequence currentTime = DateUtils.formatDateTime(this, chosenDate, DateUtils.FORMAT_SHOW_TIME);
-        CharSequence SelectedDate = DateUtils.formatDateTime(this, chosenDate, DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR);
-        String finalSummary = SelectedDate + " current time is " + currentTime;
-        displaySummary.setText(finalSummary);
-        setClickabilityOfPlaceOrderBtn(true);
-    }
-
-    // Clear date and time summary section
-    private void clearDateAndTimeDisplay()
-    {
-        displaySummary.setText("");
+        setClickabilityOfPlaceOrderBtn(false);
+        userIdLabel.setVisibility(View.INVISIBLE);
+        userIdHolder.setVisibility(View.INVISIBLE);
+        userNameLabel.setVisibility(View.INVISIBLE);
+        userNameHolder.setVisibility(View.INVISIBLE);
+        checkoutDateLabel.setVisibility(View.INVISIBLE);
+        checkoutDateHolder.setVisibility(View.INVISIBLE);
+        returnDateLabel.setVisibility(View.INVISIBLE);
+        returnDateHolder.setVisibility(View.INVISIBLE);
     }
 }

@@ -134,11 +134,13 @@ public class LibraryViewAdapter extends RecyclerView.Adapter<LibraryViewAdapter.
                                     Boolean availabilityStatus = Boolean.parseBoolean(dataSnapshot.child("Availability").getValue().toString());
                                     String bookedByUserId = dataSnapshot.child("User_Id").getValue().toString();
                                     String bookedFrom = dataSnapshot.child("Booked_From").getValue().toString();
+                                    String bookedTill = dataSnapshot.child("Booked_Till").getValue().toString();
 
                                     // Insert values into SharedPreferences
                                     editor.putBoolean("availability", availabilityStatus);
                                     editor.putString("bookedByUserId", bookedByUserId);
                                     editor.putString("bookedFrom", bookedFrom);
+                                    editor.putString("bookedTill", bookedTill);
                                     editor.apply();
 
                                     // Open checkout page

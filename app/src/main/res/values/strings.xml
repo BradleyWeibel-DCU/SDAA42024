@@ -35,7 +35,16 @@
     <string name="send_order_button">Send Order</string>
     <string name="return_book_button">Return Book</string>
     <string name="available_text">(Available)</string>
-    <string name="unavailable_text">(Unavailable)</string>
+    <string name="unavailable_text">(Unavailable till</string>
+    <string name="reserved_till_text">(Reserved till</string>
+    <string name="user_id_text">Your user ID:</string>
+    <string name="user_name_text">Your full name:</string>
+    <string name="proposed_booked_from_date">Checkout:</string>
+    <string name="proposed_booked_till_date">Return:</string>
+    <string name="plc_user_id">Username_009</string>
+    <string name="plc_user_name">John Doe</string>
+    <string name="plc_proposed_booked_from_date">xx.xx.xxxx</string>
+    <string name="plc_proposed_booked_till_date">yy.yy.yyyy</string>
 
     <!-- Toast error messages -->
     <string name="name_missing_error">Please enter your full name</string>
@@ -57,4 +66,5 @@
     <!-- Toast success messages -->
     <string name="details_saved">Account successfully created/updated</string>
     <string name="details_reset">Account details reset</string>
+    <string name="success_book_reserved">Success, the book is yours!</string>
 </resources>
